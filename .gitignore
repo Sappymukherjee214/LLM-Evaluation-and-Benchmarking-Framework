@@ -7,8 +7,9 @@ venv/
 
 # Large/Local Data
 experiments/*.json
-datasets/*.json
+# datasets/*.json
 !datasets/sample_qa.json
+!datasets/mmlu_sample.json
 
 # Node / React
 node_modules/

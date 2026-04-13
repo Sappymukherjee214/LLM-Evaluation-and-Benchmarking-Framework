@@ -52,18 +52,22 @@ def list_models():
 
 @app.get("/datasets")
 def list_datasets():
-    dataset_files = glob.glob("../datasets/*.json")
+    # Look in the root datasets directory
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    dataset_folder = os.path.join(root_dir, "datasets")
+    dataset_files = glob.glob(os.path.join(dataset_folder, "*.json"))
     return [os.path.basename(f) for f in dataset_files]
 
 @app.get("/experiments")
 def list_experiments():
-    experiment_files = glob.glob("../experiments/*.json")
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    experiment_folder = os.path.join(root_dir, "experiments")
+    experiment_files = glob.glob(os.path.join(experiment_folder, "*.json"))
     experiments = []
     for f in experiment_files:
         try:
             with open(f, 'r') as file:
                 data = json.load(file)
-                # Just return summary for listing
                 experiments.append({
                     "id": data["config"]["experiment_id"],
                     "model": data["config"]["model_id"],
@@ -83,8 +87,11 @@ def run_evaluation(req: EvalRequest):
         model = get_model(req.model_provider, req.model_id)
         
         # 2. Setup Dataset
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        ds_path = os.path.join(root_dir, "datasets", req.dataset_path)
+        
         ds = JSONDataset(name=req.dataset_name)
-        ds.load(os.path.join("../datasets", req.dataset_path))
+        ds.load(ds_path)
         
         # 3. Setup Task
         metrics = [AccuracyMetric(), LatencyMetric(), ToxicityMetric()]
@@ -96,7 +103,8 @@ def run_evaluation(req: EvalRequest):
             task = ClassificationTask(name="Classification", metrics=metrics)
             
         # 4. Run Engine
-        engine = EvaluationEngine(experiment_dir="../experiments")
+        exp_dir = os.path.join(root_dir, "experiments")
+        engine = EvaluationEngine(experiment_dir=exp_dir)
         result = engine.run(model, ds, task, prompt_template=req.prompt_template)
         
         return result

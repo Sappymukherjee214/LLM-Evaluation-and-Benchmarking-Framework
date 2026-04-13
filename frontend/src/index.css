@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    /* Tailwind 4 @apply works best when the v4 engine is fully loaded */
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+.card {
+  @apply bg-white rounded-xl border border-gray-200 shadow-sm p-6;
+}
+
+.btn-primary {
+  @apply bg-black text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50;
+}
+
+.input-field {
+  @apply border border-gray-300 rounded-lg px-3 py-2 outline-none;
+  /* Removed individual focus @apply to ensure standard CSS compatibility */
+}

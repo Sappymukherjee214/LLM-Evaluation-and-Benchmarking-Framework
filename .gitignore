@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Large/Local Data
+experiments/*.json
+datasets/*.json
+!datasets/sample_qa.json
+
+# Node / React
+node_modules/
+dist/
+.vercel
+*.log
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

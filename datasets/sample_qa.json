@@ -1,0 +1,36 @@
+{
+    "name": "General Knowledge QA",
+    "version": "1.0.0",
+    "items": [
+        {
+            "id": "q1",
+            "input": "What is the capital of France?",
+            "expected_output": "Paris",
+            "metadata": {"category": "geography", "difficulty": "easy"}
+        },
+        {
+            "id": "q2",
+            "input": "Who wrote 'Romeo and Juliet'?",
+            "expected_output": "William Shakespeare",
+            "metadata": {"category": "literature", "difficulty": "easy"}
+        },
+        {
+            "id": "q3",
+            "input": "What is the speed of light in a vacuum?",
+            "expected_output": "299,792,458 meters per second",
+            "metadata": {"category": "science", "difficulty": "medium"}
+        },
+        {
+            "id": "q4",
+            "input": "Name the largest planet in our solar system.",
+            "expected_output": "Jupiter",
+            "metadata": {"category": "science", "difficulty": "easy"}
+        },
+        {
+            "id": "q5",
+            "input": "What year did the Titanic sink?",
+            "expected_output": "1912",
+            "metadata": {"category": "history", "difficulty": "medium"}
+        }
+    ]
+}

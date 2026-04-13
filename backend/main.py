@@ -46,8 +46,8 @@ class PromptRequest(BaseModel):
 @app.get("/models")
 def list_models():
     return {
-        "providers": ["openai", "huggingface", "mock"],
-        "popular": ["gpt-4", "gpt-3.5-turbo", "llama-3", "mistral-7b", "mock-model-a"]
+        "providers": ["google", "huggingface", "mock"],
+        "popular": ["gemini-1.5-flash", "gemini-1.5-pro", "llama-3", "mistral-7b", "mock-model-a"]
     }
 
 @app.get("/datasets")

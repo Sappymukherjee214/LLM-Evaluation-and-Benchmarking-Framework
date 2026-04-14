@@ -11,4 +11,4 @@ python-dotenv
 pyyaml
 fastapi
 uvicorn
-google-generativeai
+google-genai

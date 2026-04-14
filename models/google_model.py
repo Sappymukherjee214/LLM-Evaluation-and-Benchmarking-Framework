@@ -2,7 +2,8 @@ import os
 import time
 from typing import Dict, Any
 try:
-    import google.generativeai as genai
+    from google import genai
+    from google.genai import types
 except ImportError:
     genai = None
 
@@ -10,34 +11,35 @@ from .base_model import BaseModel
 
 class GoogleModel(BaseModel):
     """
-    Wrapper for Google Gemini models.
+    Wrapper for Google Gemini models using the NEW google-genai SDK.
     """
     
     def __init__(self, model_id: str, config: Dict[str, Any] = None):
         super().__init__(model_id, config)
         self.api_key = os.getenv("GOOGLE_API_KEY")
         if genai and self.api_key:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel(model_id)
+            self.client = genai.Client(api_key=self.api_key)
         else:
-            self.model = None
+            self.client = None
 
     def generate(self, prompt: str, **kwargs) -> Dict[str, Any]:
         if not genai:
-            return {"error": "google-generativeai not installed", "text": "", "metadata": {}}
-        if not self.api_key:
-            return {"error": "GOOGLE_API_KEY not found", "text": "", "metadata": {}}
+            return {"error": "google-genai not installed", "text": "", "metadata": {}}
+        if not self.client:
+            return {"error": "GOOGLE_API_KEY not found or Client init failed", "text": "", "metadata": {}}
             
         start_time = time.time()
         try:
-            # Setting default generation config if needed
-            generation_config = kwargs.get("generation_config", {
-                "temperature": 0.7,
-                "top_p": 0.95,
-                "max_output_tokens": 1024,
-            })
+            # New SDK parameter structure
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=kwargs.get("temperature", 0.7),
+                    max_output_tokens=kwargs.get("max_output_tokens", 1024),
+                )
+            )
             
-            response = self.model.generate_content(prompt, generation_config=generation_config)
             latency = time.time() - start_time
             
             return {
@@ -52,5 +54,6 @@ class GoogleModel(BaseModel):
             return {"error": str(e), "text": "", "metadata": {"latency": time.time() - start_time}}
 
     async def generate_async(self, prompt: str, **kwargs) -> Dict[str, Any]:
-        # Google SDK supports async but for simplicity in this wrapper we use sync
+        # The new SDK has a native async client if needed: client.aio.models...
+        # For uniformity with our framework, we keep the sync call in this wrapper
         return self.generate(prompt, **kwargs)

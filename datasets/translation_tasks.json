@@ -1,0 +1,4 @@
+[
+  {"id": "t1", "prompt": "Translate 'Hello' to Spanish.", "reference": "Hola", "metadata": {"category": "translation"}},
+  {"id": "t2", "prompt": "Translate 'Goodbye' to French.", "reference": "Au revoir", "metadata": {"category": "translation"}}
+]

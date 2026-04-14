@@ -1,0 +1,4 @@
+[
+  {"id": "s1", "prompt": "Summarize the following: 'The history of artificial intelligence started in ancient times...'", "reference": "A brief overview of AI history.", "metadata": {"category": "summarization"}},
+  {"id": "s2", "prompt": "Summarize: 'The Industrial Revolution was a period of global economic transition...'", "reference": "Summary of the industrial revolution.", "metadata": {"category": "summarization"}}
+]

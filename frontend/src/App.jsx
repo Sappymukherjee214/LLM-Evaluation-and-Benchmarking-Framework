@@ -17,6 +17,7 @@ const App = () => {
   const [datasets, setDatasets] = useState([]);
   const [experiments, setExperiments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isBackendConnected, setIsBackendConnected] = useState(false);
 
   useEffect(() => {
     fetchMetadata();
@@ -29,8 +30,10 @@ const App = () => {
       const dsRes = await axios.get(`${API_BASE}/datasets`);
       setModels(modRes.data);
       setDatasets(dsRes.data);
+      setIsBackendConnected(true);
     } catch (err) {
       console.error("Failed to fetch metadata", err);
+      setIsBackendConnected(false);
     }
   };
 
@@ -74,6 +77,15 @@ const App = () => {
             onClick={() => setActiveTab('history')}
           />
         </nav>
+
+        <div className="mt-auto p-4 bg-gray-50 rounded-lg border border-gray-100">
+           <div className="flex items-center gap-2">
+             <div className={`w-2 h-2 rounded-full ${isBackendConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
+             <span className="text-xs font-semibold text-gray-500">
+               {isBackendConnected ? 'Backend Connected' : 'Backend Disconnected'}
+             </span>
+           </div>
+        </div>
       </aside>
 
       {/* Main Content */}

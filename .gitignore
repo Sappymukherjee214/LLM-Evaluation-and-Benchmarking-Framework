@@ -5,19 +5,15 @@ __pycache__/
 venv/
 .env
 
-# Large/Local Data
+# Data
 experiments/*.json
-# datasets/*.json
-!datasets/sample_qa.json
-!datasets/mmlu_sample.json
-
-# Node / React
 node_modules/
 dist/
 .vercel
 *.log
 
-# IDEs
-.vscode/
-.idea/
-.DS_Store
+# Allow these specific dataset files
+!datasets/sample_qa.json
+!datasets/mmlu_sample.json
+!datasets/translation_tasks.json
+!datasets/summarization_bench.json
